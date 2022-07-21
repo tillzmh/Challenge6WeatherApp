@@ -30,3 +30,16 @@ async function getWeather(){
     updateView(data.name,weatherData);
     textInput.value="";
 }
+
+// api calls 
+
+async function getNameAndCoordFromCityName (city){
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`); // get api from openweathermap
+    const json = await response.json();//convert response into json
+    return {name: json.name, coord: json.coord};//retuning the coords 
+}
+async function getWeatherFromCoord(coord){
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${coord.lat}&lon=${coord.lon}&appid=${apiKey}&units=imperial`);
+    const json = await response.json();
+    return json;
+}
