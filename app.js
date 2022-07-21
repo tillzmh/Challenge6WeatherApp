@@ -19,6 +19,7 @@ function getSavedWeather(event){
 //the event will be the click event. -- event.target is the button thats being clicked on. -- event.target.texevent is the text that will appear 
 
 updateNav();
+
 async function getWeather(){
     const city = textInput.value.trim().replace(/\s{2,}/g, " ");// removes extra spaces
     if (!city) return; 
@@ -42,4 +43,54 @@ async function getWeatherFromCoord(coord){
     const response = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${coord.lat}&lon=${coord.lon}&appid=${apiKey}&units=imperial`);
     const json = await response.json();
     return json;
+}
+
+//api output
+
+function updateView(city, weatherData){
+	console.log(city, weatherData);
+	const weather = weatherData.current.weather[0].main,
+		  icon = weatherData.current.weather[0].icon,
+		  temp = weatherData.current.temp,
+		  humidity = weatherData.current.humidity,
+		  windSpeed = weatherData.current.wind_speed,
+		  uvi = weatherData.current.uvi,
+		  date = (new Date()).toLocaleDateString();
+	let uviSeverity;
+	if (uvi < 3) uviSeverity = "low";
+	else if (uvi < 6) uviSeverity = "moderate";
+	else if (uvi < 8) uviSeverity = "high";
+	else if (uvi < 11) uviSeverity = "veryHigh";
+	else uviSeverity = "extreme";
+	var html = `
+        <section>
+            <h2>${city}, ${date}</h2>
+            <h3>${weather} <img src="http://openweathermap.org/img/w/${icon}.png" /></h3>
+            <p>Temp: ${temp}&deg;F</p>
+            <p>Humidity: ${humidity}%</p>
+            <p>Wind Speed: ${windSpeed}MPH</p>
+            <p>UVI: <span class="uviSeverity ${uviSeverity}">${uvi}</span></p>
+        </section>
+        <section>
+    `;
+	for (let i=1; i<=daysForecast; i++){
+		let forecast = weatherData.daily[i],
+			forecastDate = (new Date(forecast.dt*1000)).toLocaleDateString(),
+			forecastWeather = forecast.weather[0].main,
+			forecastIcon = forecast.weather[0].icon,
+			forecastTemp = forecast.temp.day,
+			forecastHumidity = forecast.humidity,
+			forecastWindSpeed = forecast.wind_speed;
+		html += `
+            <div>
+                <h4>${forecastDate}</h4>
+                <h3>${forecastWeather} <img src="http://openweathermap.org/img/w/${forecastIcon}.png" /></h3>
+                <p>Temp: ${forecastTemp}&deg;F</p>
+                <p>Humidity: ${forecastHumidity}%</p>
+                <p>Wind Speed: ${forecastWindSpeed}MPH</p>
+            </div>
+        `;
+	}
+	html += "</section>";
+	main.innerHTML = html;
 }
