@@ -17,3 +17,16 @@ function getSavedWeather(event){
     getWeather();
 }
 //the event will be the click event. -- event.target is the button thats being clicked on. -- event.target.texevent is the text that will appear 
+
+updateNav();
+async function getWeather(){
+    const city = textInput.value.trim().replace(/\s{2,}/g, " ");// removes extra spaces
+    if (!city) return; 
+    const data = await getNameAndCoordFromCityName(city);
+    if(addToData(data.name)){
+        updateNav();
+    }
+    const weatherData = await getWeatherFromCoord(data.coord);
+    updateView(data.name,weatherData);
+    textInput.value="";
+}
