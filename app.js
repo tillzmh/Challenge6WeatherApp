@@ -9,3 +9,11 @@ const textInput = document.querySelector("input");
 const main = document.querySelector("main");
 const nav = document.querySelector("nav");
 
+//eventlistenrr
+document.querySelector("aside > button").addEventListener("click", getWeather);
+function getSavedWeather(event){
+    let cityName = event.target.textContent;
+    textInput.value=CityName;
+    getWeather();
+}
+//the event will be the click event. -- event.target is the button thats being clicked on. -- event.target.texevent is the text that will appear 
