@@ -95,15 +95,28 @@ function updateView(city, weatherData){
 	main.innerHTML = html;
 }
 
-function updateNav(){
-    let cities = getData();
+function updateNav(){ // grab data from local storage 
+    let cities = getData(); 
     html = "";
-    for (let city of cities){
+    for (let city of cities){ // looping through the cities 
         html += `button>${city}</button>`;
-    }
-    nav.innerHTML = html;
-    for (let button of nav.querySelectorAll("buttom")){
-        button.addEventListener("click", getSavedWeather);
-    }
+    } 
+
+}
+
+function getData(){
+    let data = localStorage.getItem(storageName);
+    if (data) return JSON.parse(data);
+    return[];
+}
+
+function addToData(city){
+	let data = getData();
+	if (!data.includes(city)){
+		data.unshift(city);
+		localStorage.setItem(storageName, JSON.stringify(data));
+		return true;
+	}
+	return false;
 }
 

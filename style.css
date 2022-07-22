@@ -1,0 +1,40 @@
+*{
+    margin: 0;
+    
+}
+
+h1{
+    background-color: brown; font-size: 100px; text-align: center; color: white;
+}
+button{
+    border-radius: 20px; border-color: brown;
+}
+
+input{
+    display: flex;
+    
+}
+
+aside{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    background-color: brown;
+    width: 300px;
+}
+
+.low { 
+    background-color: green; color: white; 
+}
+.moderate { 
+    background-color: yellow; 
+}
+.high { 
+    background-color: orange; 
+}
+.veryHigh { 
+    background-color: red; color: white; 
+}
+.extreme { 
+    background-color: purple; color: white; 
+}
