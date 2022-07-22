@@ -94,3 +94,16 @@ function updateView(city, weatherData){
 	html += "</section>";
 	main.innerHTML = html;
 }
+
+function updateNav(){
+    let cities = getData();
+    html = "";
+    for (let city of cities){
+        html += `button>${city}</button>`;
+    }
+    nav.innerHTML = html;
+    for (let button of nav.querySelectorAll("buttom")){
+        button.addEventListener("click", getSavedWeather);
+    }
+}
+
